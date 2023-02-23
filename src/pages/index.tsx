@@ -4,9 +4,12 @@ import BlockItems from "@/components/BlockItems";
 import { useState } from "react";
 import moment from "moment";
 import styles from "@/styles/Home.module.css";
+import { UserAuth } from "@/context/AuthContext";
+import AuthBlock from "@/components/AuthBlock";
 
 export default function Home() {
   const [currentDate, setCurrentDate] = useState(moment());
+  const { user } = UserAuth();
 
   return (
     <>
@@ -27,7 +30,11 @@ export default function Home() {
           currentDate={currentDate}
           setCurrentDate={setCurrentDate}
         />
-        <BlockItems currentDate={currentDate} />
+        {user ? (
+          <BlockItems currentDate={currentDate} />
+        ) : (
+          <AuthBlock />
+        )}
       </div>
     </>
   );

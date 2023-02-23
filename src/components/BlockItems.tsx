@@ -14,6 +14,10 @@ const BlockItems = ({ currentDate }: Props) => {
   return (
     <div className={styles.block__items__wrapper}>
       {blocks
+        .sort(
+          (block1, block2) =>
+            block1.blockStart - block2.blockStart
+        )
         .filter((block) =>
           block.days.includes(
             currentDate.format("dd").toLowerCase()

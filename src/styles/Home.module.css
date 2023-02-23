@@ -17,6 +17,7 @@
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+
 }
 
 .header__dates {
@@ -142,4 +143,42 @@
   font-weight: 500;
   background: #393b3d;
   color: #848484;
+}
+
+.sign__in__wrapper {
+  height: calc(100vh - 84px);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.log__in__button {
+  background: #7a72ff;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.log__in__button:hover {
+  background: #7f78ff;
+}
+
+.button__text {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.button__icon {
+  height: 14px;
+  width: 14px;
 }

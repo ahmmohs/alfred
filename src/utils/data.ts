@@ -48,6 +48,27 @@ export const blocks: Array<Block> = [
   },
   {
     days: ["mo", "tu", "we", "th", "fr"],
+    blockStart: 9,
+    blockEnd: 11,
+    name: "Work Block 1",
+    reward: 1000,
+    tasks: [
+      {
+        name: "Figure out main task",
+        completions: [],
+        optional: false,
+        repeat: true,
+      },
+      {
+        name: "Comment on a diff",
+        completions: [],
+        optional: false,
+        repeat: true,
+      },
+    ],
+  },
+  {
+    days: ["mo", "tu", "we", "th", "fr"],
     blockStart: 7.5,
     blockEnd: 9,
     name: "Physical Health",
@@ -75,27 +96,6 @@ export const blocks: Array<Block> = [
         name: "Breakfast",
         completions: [],
         optional: true,
-        repeat: true,
-      },
-    ],
-  },
-  {
-    days: ["mo", "tu", "we", "th", "fr"],
-    blockStart: 9,
-    blockEnd: 11,
-    name: "Work Block 1",
-    reward: 1000,
-    tasks: [
-      {
-        name: "Figure out main task",
-        completions: [],
-        optional: false,
-        repeat: true,
-      },
-      {
-        name: "Comment on a diff",
-        completions: [],
-        optional: false,
         repeat: true,
       },
     ],
@@ -185,6 +185,14 @@ export const blocks: Array<Block> = [
   },
   {
     days: ["su"],
+    blockStart: 13.5,
+    blockEnd: 24,
+    name: "Entertainment Block",
+    reward: 0,
+    tasks: [],
+  },
+  {
+    days: ["su"],
     blockStart: 10.5,
     blockEnd: 13.5,
     name: "Cleaning Block",
@@ -213,14 +221,6 @@ export const blocks: Array<Block> = [
   {
     days: ["sa"],
     blockStart: 10.5,
-    blockEnd: 24,
-    name: "Entertainment Block",
-    reward: 0,
-    tasks: [],
-  },
-  {
-    days: ["su"],
-    blockStart: 13.5,
     blockEnd: 24,
     name: "Entertainment Block",
     reward: 0,
