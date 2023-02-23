@@ -81,8 +81,6 @@ const CompleteSymbole = () => {
 const TaskItem = ({ task, lastItem = false }: Props) => {
   const [completed, setCompleted] = useState(false);
 
-  useEffect(() => {}, []);
-
   return (
     <div
       className={

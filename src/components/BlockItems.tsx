@@ -26,6 +26,7 @@ const BlockItems = ({ currentDate }: Props) => {
             startTime={block.blockStart}
             endTime={block.blockEnd}
             tasks={block.tasks}
+            key={block.name}
           />
         ))}
     </div>

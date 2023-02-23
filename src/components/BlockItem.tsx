@@ -40,7 +40,7 @@ const BlockItem = ({
       setMomentEnd(mEnd);
       setDisabled(moment().isAfter(mEnd));
     }
-  }, [currentDate]);
+  }, [currentDate, startTime, endTime]);
 
   return (
     <div
@@ -65,7 +65,11 @@ const BlockItem = ({
           {tasks.map((task, index) => {
             const lastItem = index === tasks.length - 1;
             return (
-              <TaskItem task={task} lastItem={lastItem} />
+              <TaskItem
+                task={task}
+                lastItem={lastItem}
+                key={task.name}
+              />
             );
           })}
         </>
