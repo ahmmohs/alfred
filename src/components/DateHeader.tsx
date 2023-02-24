@@ -18,14 +18,15 @@ const DateHeader = ({
   return (
     <div className={styles.date__header__wrapper}>
       <div className={styles.header__dates}>
-        {user && (
-          <div
-            className={styles.header__side}
-            onClick={() => setCreateBlockModalOpen(true)}
-          >
-            Add block
-          </div>
-        )}
+        <div className={styles.header__side}>
+          {user && (
+            <div
+              onClick={() => setCreateBlockModalOpen(true)}
+            >
+              Add block
+            </div>
+          )}
+        </div>
         <div className={styles.header__middle}>
           <div
             className={styles.header__small__date}

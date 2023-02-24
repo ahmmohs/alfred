@@ -1,7 +1,6 @@
 .root {
   width: 100%;
   min-height: 100vh;
-  min-height: -webkit-fill-available;
   margin: 0;
   padding: 16px;
   background: #1f2125;
