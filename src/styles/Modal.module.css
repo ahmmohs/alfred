@@ -1,0 +1,91 @@
+.modal__wrapper {
+  display: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 80px;
+  bottom: 0;
+  margin: auto;
+  background: #27292d;
+  width: 326px;
+  height: 460px;
+  box-shadow: rgba(0, 0, 0, .4) 0px 4px 10px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #3a3c3d;
+}
+
+.modal__wrapper.show__modal {
+  display: block;
+  animation: slideup ease .3s forwards;
+}
+
+.modal__name {
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal__content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modal__input__title {
+  font-size: 12px;
+  font-weight: 300;
+  text-transform: uppercase;
+  margin-top: 12px;
+  color: #848484;
+}
+
+.day__selector {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.day__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 12px;
+  border: 1px solid #b0b3bf;
+  color: #b0b3bf;
+  border-radius: 50px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.day__item.day__item__selected {
+  background: #4c44d8;
+  border: 1px solid #4c44d8;
+  color: #fff;
+}
+
+.modal__confirm {
+  width: 100%;
+  background: #4c44d8;
+  border-radius: 4px;
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+@keyframes slideup {
+  0% {
+    top: 80px;
+  }
+  100% {
+    top: 0;
+  }
+}

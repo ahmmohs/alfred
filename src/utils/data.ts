@@ -22,8 +22,10 @@ export type Block = {
   name: string;
   reward: number;
   tasks: Array<TaskType>;
+  user: string;
 };
 
+/*
 export const blocks: Array<Block> = [
   {
     days: ["mo", "tu", "we", "th", "fr"],
@@ -226,4 +228,4 @@ export const blocks: Array<Block> = [
     reward: 0,
     tasks: [],
   },
-];
+]; */
