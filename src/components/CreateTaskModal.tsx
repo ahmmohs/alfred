@@ -105,7 +105,7 @@ const CreateTaskModal = ({
           className={styles.modal__confirm__large}
           onClick={handleCreate}
         >
-          Create block
+          Create task
         </div>
       </div>
     </Modal>
