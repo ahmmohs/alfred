@@ -1,21 +1,45 @@
 import styles from "@/styles/Modal.module.css";
 import { firestore } from "../../firebase/clientApp";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
 import { useState } from "react";
 import Modal from "./Modal";
 import { UserAuth } from "@/context/AuthContext";
+import { Block } from "@/utils/data";
 
 type Props = {
+  block?: Block | null;
+  setCurrentBlock: (block: Block | null) => void;
   shown: boolean;
   setShown: (open: boolean) => void;
 };
 
-const CreateBlockModal = ({ shown, setShown }: Props) => {
-  const [days, setDays] = useState<string[]>([]);
-  const [name, setName] = useState<string>("");
-  const [blockStart, setBlockStart] = useState<string>("0");
-  const [blockEnd, setBlockEnd] = useState<string>("0");
-  const [reward, setReward] = useState<string>("0");
+const CreateBlockModal = ({
+  block = null,
+  setCurrentBlock,
+  shown,
+  setShown,
+}: Props) => {
+  const [days, setDays] = useState<string[]>(
+    block?.days ?? []
+  );
+  const [name, setName] = useState<string>(
+    block?.name ?? ""
+  );
+  const [blockStart, setBlockStart] = useState<string>(
+    block?.blockStart.toString() ?? "0"
+  );
+  const [blockEnd, setBlockEnd] = useState<string>(
+    block?.blockEnd.toString() ?? "0"
+  );
+  const [reward, setReward] = useState<string>(
+    block?.reward.toString() ?? "0"
+  );
   const { user } = UserAuth();
 
   const updateDays = (day: string): void => {
@@ -28,20 +52,43 @@ const CreateBlockModal = ({ shown, setShown }: Props) => {
     }
   };
 
+  const generatePayload = () => {
+    return {
+      name,
+      days,
+      blockStart: blockStart ? parseFloat(blockStart) : 0,
+      blockEnd: blockEnd ? parseFloat(blockEnd) : 0,
+      reward: reward ? parseInt(reward) : 0,
+      tasks: [],
+      user: user?.email ?? "na",
+    };
+  };
+
   const handleCreate = async () => {
+    setShown(false);
     if (user) {
       const collectionRef = collection(firestore, "blocks");
-      const payload = {
-        name,
-        days,
-        blockStart: parseFloat(blockStart),
-        blockEnd: parseFloat(blockEnd),
-        reward: parseInt(reward),
-        tasks: [],
-        user: user.email,
-      };
+      const payload = generatePayload();
       await addDoc(collectionRef, payload);
     }
+  };
+
+  const handleEdit = async () => {
+    if (user && block) {
+      const docRef = doc(firestore, "blocks", block.id);
+      const payload = generatePayload();
+      await setDoc(docRef, payload);
+    }
+    setCurrentBlock(null);
+    setShown(false);
+  };
+
+  const handleDelete = async () => {
+    if (user && block) {
+      const docRef = doc(firestore, "blocks", block.id);
+      await deleteDoc(docRef);
+    }
+    setCurrentBlock(null);
     setShown(false);
   };
 
@@ -51,7 +98,14 @@ const CreateBlockModal = ({ shown, setShown }: Props) => {
         <div>
           <div className={styles.modal__name}>
             Create new block
-            <div onClick={() => setShown(false)}>x</div>
+            <div
+              onClick={() => {
+                setCurrentBlock(null);
+                setShown(false);
+              }}
+            >
+              x
+            </div>
           </div>
           <div className={styles.modal__input__title}>
             Name
@@ -140,38 +194,46 @@ const CreateBlockModal = ({ shown, setShown }: Props) => {
           </div>
           <input
             value={reward}
-            onChange={(e) =>
-              e.target.value != "" &&
-              setReward(e.target.value)
-            }
+            onChange={(e) => setReward(e.target.value)}
           />
           <div className={styles.modal__input__title}>
             Start
           </div>
           <input
             value={blockStart}
-            onChange={(e) =>
-              e.target.value != "" &&
-              setBlockStart(e.target.value)
-            }
+            onChange={(e) => setBlockStart(e.target.value)}
           />
           <div className={styles.modal__input__title}>
             End
           </div>
           <input
             value={blockEnd}
-            onChange={(e) =>
-              e.target.value != "" &&
-              setBlockEnd(e.target.value)
-            }
+            onChange={(e) => setBlockEnd(e.target.value)}
           />
         </div>
-        <div
-          className={styles.modal__confirm}
-          onClick={handleCreate}
-        >
-          Create block
-        </div>
+        {block ? (
+          <div className={styles.modal__confirm__wrapper}>
+            <div
+              className={`${styles.modal__confirm__small} ${styles.modal__confirm__secondary}`}
+              onClick={handleDelete}
+            >
+              Delete
+            </div>
+            <div
+              className={styles.modal__confirm__small}
+              onClick={handleEdit}
+            >
+              Save
+            </div>
+          </div>
+        ) : (
+          <div
+            className={styles.modal__confirm__large}
+            onClick={handleCreate}
+          >
+            Create block
+          </div>
+        )}
       </div>
     </Modal>
   );

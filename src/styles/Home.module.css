@@ -2,7 +2,6 @@
   width: 100%;
   min-height: 100vh;
   margin: 0;
-  padding: 16px;
   background: #1f2125;
   box-sizing: border-box;
   display: flex;
@@ -10,10 +9,13 @@
 }
 
 .blurred {
-  filter: blur(5px);
+  transition: filter .1s ease;
+  filter: blur(2px);
+  pointer-events: none;
 }
 
 .content__wrapper {
+  padding: 16px;
   min-width: 680px;
   max-width: 680px;
   position: relative;
@@ -90,25 +92,58 @@
 }
 
 .footer__item__main {
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
   position: relative;
 }
 
-.footer__item__main:hover {
-  background: #3a3b3f;
+.footer__button {
+  background: #4c44d8;
+  width: 72px;
+  height: 72px;
+  bottom: 16px;
+  border-radius: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border: 6px solid #1f2125;
+}
+
+.footer__button:hover {
+  animation: hoverup .2s ease forwards;
+}
+
+@keyframes hoverup {
+  0% {
+    bottom: 16px;
+  }
+  100% {
+    bottom: 20px;
+  }
 }
 
 .date__header__wrapper {
   border-radius: 8px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
 
+.month__name {
+  margin-bottom: 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1.3px;
 }
 
 .header__dates {
@@ -163,6 +198,12 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: calc(100vh - 164px);
+  overflow: scroll;
+}
+
+.block__items__wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .block__item__wrapper {
@@ -178,6 +219,47 @@
 .disabled__block {
   pointer-events: none;
   opacity: .4;
+}
+
+.block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.block__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.block__action {
+  height: 28px;
+  width: 28px;
+  margin-left: 4px;
+  margin-right: 4px;
+  transition: all .2s ease;
+  border: 1px solid #27292d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.block__action__main {
+  height: 28px;
+  width: 28px;
+  margin-left: 4px;
+  margin-right: 4px;
+  transition: all .2s ease;
+  border: 1px solid #4c44d8;
+  background: #2e2c4a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 

@@ -61,6 +61,7 @@
   font-size: 12px;
   cursor: pointer;
   transition: all .2s ease;
+  font-weight: 600;
 }
 
 .day__item.day__item__selected {
@@ -69,16 +70,42 @@
   color: #fff;
 }
 
-.modal__confirm {
+.modal__confirm__large {
   width: 100%;
   background: #4c44d8;
   border-radius: 4px;
-  padding: 12px;
+  padding: 8px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-weight: 500;
+}
+
+.modal__confirm__small {
+  width: 146px;
+  background: #4c44d8;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #4c44d8;
+  font-weight: 500;
+}
+
+.modal__confirm__small.modal__confirm__secondary {
+  background: none;
+  border: 1px solid #b0b3bf;
+}
+
+.modal__confirm__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @keyframes slideup {

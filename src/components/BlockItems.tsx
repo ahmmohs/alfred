@@ -6,6 +6,8 @@ import {
   getFirestore,
   collection,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 import BlockItem from "./BlockItem";
 
@@ -16,9 +18,17 @@ import { UserAuth } from "@/context/AuthContext";
 
 type Props = {
   currentDate: moment.Moment;
+  setCurrentBlock: (block: null | Block) => void;
+  setCreateBlockModalOpen: (open: boolean) => void;
+  setCreateTaskModalOpen: (open: boolean) => void;
 };
 
-const BlockItems = ({ currentDate }: Props) => {
+const BlockItems = ({
+  currentDate,
+  setCreateBlockModalOpen,
+  setCreateTaskModalOpen,
+  setCurrentBlock,
+}: Props) => {
   const { user } = UserAuth();
   const [blocks, setBlocks] = useState<Array<Block>>([]);
   const [loading, setLoading] = useState(true);
@@ -32,19 +42,20 @@ const BlockItems = ({ currentDate }: Props) => {
       return;
     }
 
-    const unsubscribe = onSnapshot(
-      collection(firestore, "blocks"),
-      (snapshot) => {
-        setBlocks(
-          snapshot.docs
-            .map((doc) => doc.data())
-            .filter(
-              (block) => block.user === user.email
-            ) as Array<Block>
-        );
-        setTimeout(() => setLoading(false));
-      }
+    const collectionRef = collection(firestore, "blocks");
+    const q = query(
+      collectionRef,
+      where("user", "==", user.email)
     );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setBlocks(
+        snapshot.docs.map((doc) => ({
+          ...(doc.data() as Block),
+          id: doc.id,
+        }))
+      );
+      setTimeout(() => setLoading(false), 500);
+    });
 
     return unsubscribe;
   }, [user]);
@@ -67,12 +78,14 @@ const BlockItems = ({ currentDate }: Props) => {
         )
         .map((block) => (
           <BlockItem
-            name={block.name}
+            key={block.id}
+            block={block}
             currentDate={currentDate}
-            startTime={block.blockStart}
-            endTime={block.blockEnd}
-            tasks={block.tasks}
-            key={block.name}
+            setCurrentBlock={setCurrentBlock}
+            setCreateBlockModalOpen={
+              setCreateBlockModalOpen
+            }
+            setCreateTaskModalOpen={setCreateTaskModalOpen}
           />
         ))}
     </div>

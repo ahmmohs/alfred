@@ -7,9 +7,15 @@ export type DayType =
   | "sa"
   | "su";
 
+export type Completions = {
+  [date: string]: boolean;
+};
+
 export type TaskType = {
+  id: string;
+  blockId: string;
   name: string;
-  completions: Array<number>;
+  completions: Completions;
   optional: boolean;
   repeat: boolean;
   specificDate?: number;
@@ -23,9 +29,10 @@ export type Block = {
   reward: number;
   tasks: Array<TaskType>;
   user: string;
+  id: string;
 };
 
-/*
+/* 
 export const blocks: Array<Block> = [
   {
     days: ["mo", "tu", "we", "th", "fr"],

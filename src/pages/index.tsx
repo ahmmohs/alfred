@@ -8,12 +8,18 @@ import { UserAuth } from "@/context/AuthContext";
 import AuthBlock from "@/components/AuthBlock";
 import CreateBlockModal from "@/components/CreateBlockModal";
 import Footer from "@/components/Footer";
+import { Block } from "@/utils/data";
+import CreateTaskModal from "@/components/CreateTaskModal";
 
 export default function Home() {
   const [currentDate, setCurrentDate] = useState(moment());
   const [loading, setLoading] = useState(true);
   const [createBlockModalOpen, setCreateBlockModalOpen] =
     useState(false);
+  const [createTaskModalOpen, setCreateTaskModalOpen] =
+    useState(false);
+  const [currentBlock, setCurrentBlock] =
+    useState<Block | null>(null);
   const { user } = UserAuth();
 
   useEffect(() => {
@@ -39,7 +45,7 @@ export default function Home() {
       {!loading && (
         <div
           className={
-            !createBlockModalOpen
+            !createBlockModalOpen && !createTaskModalOpen
               ? styles.content__wrapper
               : `${styles.content__wrapper} ${styles.blurred}`
           }
@@ -47,23 +53,39 @@ export default function Home() {
           <DateHeader
             currentDate={currentDate}
             setCurrentDate={setCurrentDate}
-            setCreateBlockModalOpen={
-              setCreateBlockModalOpen
-            }
           />
           {user ? (
-            <BlockItems currentDate={currentDate} />
+            <BlockItems
+              currentDate={currentDate}
+              setCurrentBlock={setCurrentBlock}
+              setCreateBlockModalOpen={
+                setCreateBlockModalOpen
+              }
+              setCreateTaskModalOpen={
+                setCreateTaskModalOpen
+              }
+            />
           ) : (
             <AuthBlock />
           )}
-          {createBlockModalOpen && (
-            <CreateBlockModal
-              shown={createBlockModalOpen}
-              setShown={setCreateBlockModalOpen}
-            />
-          )}
-          <Footer />
+          <Footer addBlock={setCreateBlockModalOpen} />
         </div>
+      )}
+      {createBlockModalOpen && (
+        <CreateBlockModal
+          shown={createBlockModalOpen}
+          setShown={setCreateBlockModalOpen}
+          block={currentBlock}
+          setCurrentBlock={setCurrentBlock}
+        />
+      )}
+      {createTaskModalOpen && (
+        <CreateTaskModal
+          show={createTaskModalOpen}
+          blockId={currentBlock?.id}
+          setBlock={setCurrentBlock}
+          onShow={setCreateTaskModalOpen}
+        />
       )}
     </div>
   );
