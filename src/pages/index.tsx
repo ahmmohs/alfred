@@ -7,6 +7,7 @@ import styles from "@/styles/Home.module.css";
 import { UserAuth } from "@/context/AuthContext";
 import AuthBlock from "@/components/AuthBlock";
 import CreateBlockModal from "@/components/CreateBlockModal";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [currentDate, setCurrentDate] = useState(moment());
@@ -55,13 +56,14 @@ export default function Home() {
           ) : (
             <AuthBlock />
           )}
+          {createBlockModalOpen && (
+            <CreateBlockModal
+              shown={createBlockModalOpen}
+              setShown={setCreateBlockModalOpen}
+            />
+          )}
+          <Footer />
         </div>
-      )}
-      {createBlockModalOpen && (
-        <CreateBlockModal
-          shown={createBlockModalOpen}
-          setShown={setCreateBlockModalOpen}
-        />
       )}
     </div>
   );
