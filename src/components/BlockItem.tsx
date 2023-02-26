@@ -131,6 +131,8 @@ const BlockItem = ({
     return unsubscribe;
   }, [user, block.id, currentDate]);
 
+  const checkReward = () => {};
+
   return (
     <div
       className={

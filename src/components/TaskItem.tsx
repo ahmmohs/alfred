@@ -110,22 +110,31 @@ const TaskItem = ({
   currentDate,
 }: Props) => {
   const [completed, setCompleted] = useState(
-    task.completions[currentDate.unix()] ?? false
+    task.completions[currentDate.startOf("d").unix()] ??
+      false
   );
 
   const updateDoc = async (task: TaskType) => {
     const docRef = doc(firestore, "tasks", task.id);
     const completions = {
       ...task.completions,
-      [moment(currentDate).unix()]: !completed,
+      [moment(currentDate.startOf("d")).unix()]: !completed,
     };
     await setDoc(docRef, { ...task, completions });
+    setCompleted(!completed);
   };
 
   const deleteTask = async (taskId: string) => {
     const docRef = doc(firestore, "tasks", taskId);
     await deleteDoc(docRef);
   };
+
+  useEffect(() => {
+    setCompleted(
+      task.completions[currentDate.startOf("d").unix()] ??
+        false
+    );
+  }, [currentDate, task.completions]);
 
   return (
     <div
@@ -134,12 +143,13 @@ const TaskItem = ({
           ? `${styles.task__item__wrapper} ${styles.task__last}`
           : styles.task__item__wrapper
       }
-      onClick={() => {
-        updateDoc(task);
-        setCompleted(!completed);
-      }}
     >
-      <div className={styles.task__left}>
+      <div
+        className={styles.task__left}
+        onClick={() => {
+          updateDoc(task);
+        }}
+      >
         <div className={styles.task__completion__wrapper}>
           {!completed ? (
             <IncompleteSymbole />
