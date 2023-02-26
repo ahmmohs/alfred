@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { TaskType } from "../utils/data";
 import styles from "@/styles/Home.module.css";
+import { deleteDoc, doc } from "firebase/firestore";
+import { firestore } from "../../firebase/clientApp";
 
 type Props = {
   task: TaskType;
@@ -78,8 +80,35 @@ const CompleteSymbole = () => {
   );
 };
 
+const TrashIcon = () => (
+  <svg
+    width="13"
+    height="14"
+    viewBox="0 0 13 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_108_2)">
+      <path
+        d="M3.69687 0.483984L3.5 0.875H0.875C0.391016 0.875 0 1.26602 0 1.75C0 2.23398 0.391016 2.625 0.875 2.625H11.375C11.859 2.625 12.25 2.23398 12.25 1.75C12.25 1.26602 11.859 0.875 11.375 0.875H8.75L8.55312 0.483984C8.40547 0.185938 8.10195 0 7.77109 0H4.47891C4.14805 0 3.84453 0.185938 3.69687 0.483984ZM11.375 3.5H0.875L1.45469 12.7695C1.49844 13.4613 2.07266 14 2.76445 14H9.48555C10.1773 14 10.7516 13.4613 10.7953 12.7695L11.375 3.5Z"
+        fill="#B0B3BE"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_108_2">
+        <rect width="12.25" height="14" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
 const TaskItem = ({ task, lastItem = false }: Props) => {
   const [completed, setCompleted] = useState(false);
+
+  const deleteTask = async (taskId: string) => {
+    const docRef = doc(firestore, "tasks", taskId);
+    await deleteDoc(docRef);
+  };
 
   return (
     <div
@@ -116,6 +145,12 @@ const TaskItem = ({ task, lastItem = false }: Props) => {
         </div>
       </div>
       <div className={styles.task__right}>
+        <div
+          style={{ marginRight: "8px", cursor: "pointer" }}
+          onClick={() => deleteTask(task.id)}
+        >
+          <TrashIcon />
+        </div>
         {task.repeat && <RepeatSymbole />}
       </div>
     </div>
