@@ -182,6 +182,7 @@ const BlockItem = ({
                 task={task}
                 lastItem={lastItem}
                 key={task.name}
+                currentDate={currentDate}
               />
             );
           })}

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TaskType } from "../utils/data";
 import styles from "@/styles/Home.module.css";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/clientApp";
+import moment from "moment";
 
 type Props = {
   task: TaskType;
   lastItem?: boolean;
+  currentDate: moment.Moment;
 };
 
 const RepeatSymbole = () => {
@@ -102,8 +104,23 @@ const TrashIcon = () => (
   </svg>
 );
 
-const TaskItem = ({ task, lastItem = false }: Props) => {
-  const [completed, setCompleted] = useState(false);
+const TaskItem = ({
+  task,
+  lastItem = false,
+  currentDate,
+}: Props) => {
+  const [completed, setCompleted] = useState(
+    task.completions[currentDate.unix()] ?? false
+  );
+
+  const updateDoc = async (task: TaskType) => {
+    const docRef = doc(firestore, "tasks", task.id);
+    const completions = {
+      ...task.completions,
+      [moment(currentDate).unix()]: !completed,
+    };
+    await setDoc(docRef, { ...task, completions });
+  };
 
   const deleteTask = async (taskId: string) => {
     const docRef = doc(firestore, "tasks", taskId);
@@ -118,6 +135,7 @@ const TaskItem = ({ task, lastItem = false }: Props) => {
           : styles.task__item__wrapper
       }
       onClick={() => {
+        updateDoc(task);
         setCompleted(!completed);
       }}
     >
